@@ -1,0 +1,26 @@
+#gameArea{
+    position: absolute;
+    top: 50%;  
+    left: 50%; 
+
+    transform: translate(-50%, -50%); 
+    width: 1000px;
+    height: 880px;
+    background-color: gray;
+  }
+
+  table {
+    margin: 0 auto;
+    margin-top: -13%;
+    border-collapse: collapse;
+    width: 600px;
+    height: 600px;
+  }
+  
+  table td {
+    border: 1px solid black;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    font-size: 24px;
+  }
