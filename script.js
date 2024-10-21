@@ -29,45 +29,48 @@ function CreoTabella(){
 }
 
 
-
 function handleCellClick(event) {
-  //console.log(`Hai cliccato sulla cella ${event.target.id}`);
   const cell = event.target; 
   const eventId = event.target.id;
-
   var [prep, x, y] = eventId.split('-'); 
-  
-  if(cell.children.length == 0 ){
-    if(turno == false){
-        const imgV = document.createElement('img'); 
-        imgV.src = 'V.png'; 
-        imgV.style.width = '100%'; 
-        imgV.style.height = 'auto';
-        cell.appendChild(imgV);  
-        turno = true;  
-        matrice[x][y] = true;
-         console.log(`Hai cliccato sulla cella ${x} - ${y}`);
+  x = parseInt(x); 
+  y = parseInt(y);
 
-         // DEBUG
-         console.log(matrice.toString());
+  // Trova il primo punto null nella colonna y
+  const primoPuntoNull = trovaPrimoPuntoNull(matrice, y);
 
-      }else{
-        const imgX = document.createElement('img'); 
-        imgX.src = 'X.png'; 
-        imgX.style.width = '100%'; 
-        imgX.style.height = 'auto';
-        cell.appendChild(imgX);    
-        turno = false; 
-        matrice[x][y] = false;
-       console.log(`Hai cliccato sulla cella ${event.target.id}`);
+  if (primoPuntoNull !== -1) { // Controllo che non sia piena
+      if (turno === false) {
+          const imgRosso = document.createElement('img'); 
+          imgRosso.src = 'Rosso.png'; 
+          // Posiziona l'immagine nella cella corretta
+          matrice[primoPuntoNull][y] = true; // Aggiorna la matrice
+          document.getElementById(`cell-${primoPuntoNull}-${y}`).appendChild(imgRosso);  
+          turno = true;  
+          //console.log(`Hai cliccato sulla cella ${primoPuntoNull} - ${y}`);
 
-         // DEBUG
-         console.log(matrice.toString());
+      } else {
+          const imgGiallo = document.createElement('img'); 
+          imgGiallo.src = 'Giallo.png'; 
+          // Posiziona l'immagine nella cella corretta
+          matrice[primoPuntoNull][y] = false; // Aggiorna la matrice
+          document.getElementById(`cell-${primoPuntoNull}-${y}`).appendChild(imgGiallo);    
+          turno = false; 
+         // console.log(`Hai cliccato sulla cella ${primoPuntoNull} - ${y}`);
       }
-  } else{
-    console.log("La cella è piena")
+
+      // DEBUG
+      console.log(matrice.toString());
+  } else {
+      console.log("La colonna è piena");
   }
- 
-  ControlloVincite()
 }
 
+function trovaPrimoPuntoNull(matrice, colonna) {
+  // Scorri la colonna dalla prima riga partendo dal basso
+  for (let i = matrice.length - 1; i >= 0; i--) {
+      if (matrice[i][colonna] === null) {
+          return i;
+      }
+  }
+}
